@@ -1,0 +1,393 @@
+To Know List
+------------
+1 Generally
+
+• What are the following?
+– action space: s3.1
+– state space: s3.1
+– transition function: s3.6, L02s5
+– reward function: s3.6, L02s5
+– discount factor: s3.3
+– policy: s4.1
+– return: s3.3
+– value function (state-value and action-value functions): s3.7
+
+• Explain the Markov Property (with equations and conceptually): s3.5
+
+• What does it mean to evaluate a policy? Equivalently, what is the goal of
+Policy Evaluation? Or what is th RL prediction task?
+- "Evaluating a policy is equivalent to computing the value function (V or Q) for an arbitrary policy pi"
+
+• What is the Reinforcement Learning (RL) control problem?
+- "Finding a policy which maximises the reward when travelling through state space (Policy Evaluation + Improvement)" 
+
+• Write a reward or transition function in matrix format: *T.Dish Stacking
+
+• Draw a transition graph: *T.Monkey MDP
+
+• Write a policy in matrix format: *T.Dish Stacking (without states)
+
+• Execute a given policy on paper: *T.Dish Stacking (assuming execute policy is update V, evaluate and improve?)
+
+• What are the differences between episodic and continuing tasks, and what
+role does the discount factor play in either of them?: s3.4
+
+• What is an absorbing/terminating state and what is the return from such
+a state?: s3.4
+
+• Explain the formulas defining the state (V ) and action (Q) value functions: s3.7
+
+• Explain the Bellman Equations, and the Bellman Optimality Equations,
+for V and Q: s3.7, s3.8
+
+• Give the relation between V and Q under different conditions (stochastic
+versus deterministic policy, optimal versus non-optimal policy): s4.2, 
+
+• Value functions are defined for a specific policy.
+
+• There exists a unique solution to the Bellman equations.
+
+• What do we mean by ’tabular’ RL?
+- "In the tabular case of RL, algorithms use a lookup table to find a state or state-action value to perform the updates (in practise it means finite sets of states and actions, however there may be cases in which even with finite sets of states and actions you may stil decide to use function approximation)"
+
+• What does it mean for an RL algorithm to be model-based or model-free?
+- "A model-based RL algorithm requires a complete model of the environment, while model-free does not"
+
+• For the tabular case, and if we known the model, we can solve the Bellman
+Equations as a linear programming problem of |S| number of equations
+and unknowns (where |S| is the number of states).
+
+• What is a backup operation in the context of RL?: s4.8
+
+• What is a ”full backup”?: s4.8
+
+• Explain the impact of the learning rate, generally and specifically for the
+tabular case.
+- "Generally: the learning rate determines the speed of updating, too large of a learning rate may cause the algorithm not to converge"
+- "Tabular case: learning rate of 0 means 'no learning' in both cases, but learning rate of 1 means 'replace estimate with new sample' in tabular"
+
+• What is ”sampling”?
+- "Generating sample transitions. More in s5."
+
+• What does it mean to ”bootstrap”?
+- "Bootstrapping is the idea of updating estimates of the values of states based on estimates of the values of successor states (update estimates on the basis of other estimates)"
+
+• A Markov Decision Process (MDP) with a defined policy defines a Markov
+Chain (what is a Markov Chain?).
+- "More specifically, a markov chain is a stochastic model describing a sequence of possible events in which the probability of each event depends only on the state attained in the previous event" 
+
+• Explain the concept of Generalised Policy Iteration (GPI).: s4.6
+
+• Are any GPI algorithms guarantee to converge to an optimal policy? No.
+
+• Model a described problem as an MDP/SMDP/POMDP, identify what
+if any information is missing or ill-specified, and assume values for any
+missing info such that they are consistent with the problem. Explain
+those assumptions in terms of how a learned policy would behave online.
+- MDP: *T.Monkey MDP
+- SMDP: (revise)
+- POMDP: (revise)
+
+• Explain the Difference between Temporal Difference (TD), TD(λ), Monte
+Carlo, and Dynamic Programming, with the use of backup diagrams.
+- (revise)
+
+• Why would you use: (revise)
+
+– Dynamic Programming;
+
+– Monte Carlo;
+
+– Temporal Difference?
+
+• What algorithms are guaranteed to converge and under what conditions? (revise)
+- MC will converge to a local optimum, as long as \alpha is reduced over time
+
+• Given the description of a problem, pick an algorithm to solve it, and
+argue for your choice, while still pointing out any negatives.
+- (revise)
+
+• Can we generally define an optimal policy if we are given the respective
+state-value function?
+- (revise)
+
+2 Dynamic Programming
+
+• Dynamic Programming algorithms are model-based.
+
+• Understand Iterative Policy Evaluation in detail and be able to explain it
+and run a few steps.: s4.1
+
+• Explain the Policy Improvement Theorem: s4.2
+
+• Do a policy improvement step (greedy or e-greedy).: s4.2
+
+• Understand Policy Iteration in detail and be able to explain it and run a few steps.: s4.3 
+
+• Understand Value Iteration in detail and be able to explain it and run a few steps.: s4.4
+
+• Explain how Value Iteration relates to Policy Iteration.: s4.4
+
+• Explain Asynchronous Dynamic Programming. Recognise an example
+algorithm as being an instance of Asynchronous Dynamic Programming.: s4.5
+
+3 Monte Carlo
+
+• Monte Carlo (MC) RL is model-free.
+
+• MC RL does not bootstrap.
+
+• MC uses samples from real-world experience or simulation.
+
+• Though a ”simulator” is a model, it does not necessarily explicitly define
+a transition and reward function (which is what we are concerned with
+when calling a procedure ”model-free” or ”model-based”).
+
+• Explain the difference between first and every visit MC. Given a set of
+trajectories, produce the samples under either method.: s5.2
+
+• Given one or more sampled trajectories, execute a requested MC algorithm
+for prediction or control.: s5.4
+
+• Explain the idea behind exploring starts.: s5.2
+
+• Explain MC control as an instantiation of Generalised Policy Iteration.: s5.3
+
+• Infinite Sampling and Exploring All States are not realistic assumptions
+in most real applications.
+
+• Explain the concepts of on-policy and off-policy.
+- "On-policy methods attempt to evaluate or improve the policy that is used to make decisions, while off-policy methods estimate the value function for one policy while following another, separating between behaviour policy and estimation policy "
+
+• Explain e-greedy action selection/policies.: s5.4
+
+• Do a step of policy improvement for an e-greedy policy.
+
+• Understand On-Policy MC Control in detail and be able to explain it and
+run a few steps (given example trajectories).: s5.4
+
+• Understand Off-Policy MC Control in detail and be able to explain it and
+run a few steps (given example trajectories).: s5.6
+
+• What are the Estimation and Behaviour policies, in the context of an
+off-policy RL algorithm?: s5.6
+
+• Understand the incremental implementation of Off-Policy MC control.: s5.7
+
+• Different ways to achieve exploration in MC (and RL in general):
+– on-policy that still explores
+– off-policy (decoupling exploration from evaluation)
+– exploring starts
+
+• Understand MC sample-averaging as learning rate.: L08s3 s5.7
+
+• MC is more robust towards violations of the Markov assumption, since it
+doesn’t bootstrap.
+
+4 Temporal Difference
+
+• TD learning does not require a model.
+
+• TD learning bootstraps.
+
+• Understand TD(0) in detail and be able to explain it and run a few steps.: s6.3
+
+• What is the ”target” of an update procedure/backup?: s6.1
+
+• Why might TD converge faster than MC? (It moves towards a better
+estimate that takes transitions into account, or it bootstraps. MC better
+matches the training data).
+
+• Explain on-policy and off-policy TD control differences.: s6.4, s6.5
+
+• Understand SARSA in detail and be able to explain it and run a few steps
+(given example trajectories): s6.4
+
+• Understand Q-Learning in detail and be able to explain it and run a few
+steps (given example trajectories): s6.5
+
+• Explain the difference between the on-line performance of SARSA and
+Q-Learning (witrh or without an example application).: s6.5-Ex6.6
+
+5 Eligibility Traces
+
+• Compute an n-step return (also show in backup diagram).: s7.1
+
+• n-step return when episode ends in less than n + 1 steps is full return.
+
+• Understand n-step TD evaluation (this is not TD(λ)!!) in detail and be
+able to explain it and run a few steps (given example trajectories).: s7.1
+
+• Explain complex backups, and give an example.: s7.2
+
+• Explain the formula for λ-return.: s7.2
+
+• Understand the λ-return algorithm in detail and be able to explain it and
+run a few steps (given example trajectories).: s7.2
+
+• λ-return is not typically called TD(λ).
+
+• What is the main problem with the λ return algorithm (and n-step TD)?
+
+• Explain the relation between the forward and backward view of TD(λ).: s7.4
+
+• Explain the concept of eligibility traces.: s7.0
+
+• Iteratively update the eligibility traces of states given a sampled trajectory.
+
+• Explain the λ parameter, and compare it with the discount factor.: s7.2
+
+• Understand SARSA(λ) in detail and be able to explain it and run a few
+steps (given example trajectories).: s7.5
+
+• What is the difficulty with implementing Q(λ)?: s7.6
+
+6 Function Approximation
+
+• Explain the concept of Function Approximation for value functions in RL.: s8.0, s8.1
+
+• What are some reasons why we might choose to use function approximation
+in RL? 
+- "We may choose to use fa when the state space is large enough, and we don't have the memory, time or data required to fill them in the tabular case "
+
+• Given the description of an RL problem, suggest a set of features to describe
+states with.
+
+• Given the representation of a linear value function as weights, and a state
+vector, compute the value function at that state.: s8.1
+
+• Give and explain the general formula for doing backups with function
+approximation.: s8.1
+
+• Do an update given a target, a proposed RL algorithm, and a linear representation
+a the value function.: *T. Orchard
+
+• TD and MC can be applied to RL problems with function approximation,
+as long as we can compute or estimate partial derivatives of the value
+function over the approximate value function parameters.
+
+• The MC solution is gradient descent.
+
+• The TD solution approximates/is like gradient descent.
+
+• Explain the concept of Coarse Coding.: s8.3.1
+
+7 Semi-MDPs and Options
+
+• Explain the concept of Reward Shaping.: L12s7
+
+• Main problem with reward shaping is that it changes the problem solved.
+
+• What is a Semi-MDP (SMDP)?: L12s12
+
+• For SMDPs, the Markov assumption holds at states -when- a decision
+is made. The Markov assumption does not necessarily hold in-between
+time-steps.
+
+• The time between decisions can be discrete or continuous.
+
+• Explain the Bellman Equations for SMDPs.: L12s13
+
+• We can run DP, MC, and TD algorithms on SMDPs with few changes.
+
+• Write the Q-Learning update for a discrete time SMDP.: L12s15
+
+• Explain the role of e−lτ for continuous time SMDPs.
+- "Discount factor"
+
+• Explain the concept of Options.: L12s32
+
+• Define an option (the tuple).: L12s32
+
+• Given a deterministic policy over options, and their definitions, write out
+the state-action trajectory as if the policy was being executed.
+
+• Give an example of a hierarchy of options.
+
+• Given a problem description, suggest a hierarchy of options.
+
+• We can learn optimal policies over options, but these are only optimal
+given the constraints the options impose on behaviour. Procedures ove
+SMDPs have the same guarantees as over MDPs, but with solutions constrained
+by the options.
+
+• Given the definition of an option, and a set of states, answer questios such as:
+
+– Can the option terminate in this state?
+
+– Can the option be initiated in this state?
+
+• How do options define an SMDP?
+
+• (Optimal) Bellman Equations for Options.: L12s37
+
+• Options are a good way of introducing hierarchies to RL problems.
+
+8 Inverse Reinforcement Learning
+
+• We can use supervised learning to learn a policy directly, by using observations of an agent’s behaviour (i.e. trajectories). This is ”Behavioural
+Cloning”.
+
+• Explain the concept of Inverse RL (IRL):
+- "The problem of IRL consists on determining the reward function being optimized given measurement's of an agent's behaviour over time, in a variety of circumstances; measurements of the sensory inputs to that agent if needed; and a model of the environment if available."
+
+• Why might we choose to do IRL instead of Behavioural Cloning?: 8_IRLs7
+
+• We can solve the IRL problem, given an observed trajectory or a policy,
+by formulating a linear program:
+
+– Explain the tabular-case formulation. 8_IRLs12-
+
+– Explain the linear function approximation case formulation. 8_IRLs24-
+
+• There are multiple reward functions that can explain a given behaviour
+(trajectory or policy), so the linear programs include constraints to produce something more intuitive/useful. Explain how different requirements
+inform our linear program objective function (maximum difference on Q,
+and normalisation).: paper
+
+• Why do we need a model for formulating the linear function approximation
+linear program?: paper
+
+9 Partially Observable MDPs
+
+• What does partial observability mean in the context of RL?: 7_POMDPss4
+
+• Explain what a belief state is.: 7_POMDPss8
+
+• Give and explain the Bellman Equations for POMDPs.: 7_POMDPss20
+
+• Compute the value of a belief state given the state value function.
+
+• The main problem with POMDPs is that the value function is defined
+over probability distributions.
+
+• For finite worlds (state, action, measurement spaces, observations, finite
+horizons), we can represent the value function as a piece-wise linear function.
+
+• Given a POMDP model, a current belief state, and an observation, compute
+the posterior belief state.
+
+• Read a piece-wise linear value function graph.
+
+• Explain the concept of ”pruning” and its necessity for POMDP Value Iteration.: 7_POMDPss15
+
+• Given a small POMDP problem, and a belief state, give an optimal policy
+for a short horizon (possibly implicitly defined by terminating/absorbing
+states).
+
+10 Multi-Agent RL
+
+• Read and write payoff matrices for 2-player games.: 10_MARLs5-6
+
+• What are zero-sum and fully cooperative games?: papers2-3
+
+• Understand and explain pure and mixed strategies.
+
+• Define a Stochastic Game.
+
+• Explain Shapley’s [1953] Value Iteration algorithm.
+
+• Given a problem description of an iterative zero-sum game, and a description
+of the current state, compute an optimal policy for your agent using
+minimax search.
+

@@ -1,0 +1,20 @@
+Date	Correct	Answered	Wrong	Topic
+Thu 06 Dec	0	6	[0, 1, 2, 3, 4, 5]	Important concepts
+Sun 09 Dec	2	6	[0, 1, 4, 5]	Important concepts
+Sun 09 Dec	2	8	[1, 2, 3, 4, 5, 7]	Hogkin-Huxley model
+Sun 09 Dec	6	8	[2, 3]	Hogkin-Huxley model
+Sun 09 Dec	2	13	[2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]	Synaptic Input
+Tue 11 Dec	0	10	[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]	A visual processing task: Retina and V1
+Tue 11 Dec	9	10	[9]	A visual processing task: Retina and V1
+Tue 11 Dec	0	14	[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]	Higher Visual Processing
+Tue 11 Dec	7	14	[0, 1, 3, 5, 6, 8, 12]	Higher Visual Processing
+Tue 11 Dec	2	13	[0, 1, 2, 3, 5, 6, 7, 8, 10, 11, 12]	Neural Coding and Decoding
+Tue 11 Dec	8	13	[3, 6, 7, 8, 11]	Neural Coding and Decoding
+Tue 11 Dec	0	8	[0, 1, 2, 3, 4, 5, 6, 7]	Networks of Neurons
+Tue 11 Dec	4	7	[2, 4, 6]	Networks of Neurons
+Tue 11 Dec	0	7	[0, 1, 2, 3, 4, 5, 6]	Making Decisions and Motor Output
+Tue 11 Dec	5	7	[1, 5]	Making Decisions and Motor Output
+Tue 11 Dec	1	6	[0, 2, 3, 4, 5]	Models of associative memory
+Tue 11 Dec	6	6	[]	Models of associative memory
+Wed 12 Dec	18	29	[13, 18, 19, 22, 24, 30, 31, 70, 72, 83, 90]	['Important concepts', 'Passive properties of neurons', 'Hogkin-Huxley model', 'Synaptic Input', 'The integrate and fire model', 'Single neuron firing statistics and noise', 'A visual processing task: Retina and V1', 'Higher Visual Processing', 'Neural Coding and Decoding', 'Networks of Neurons', 'Making Decisions and Motor Output', 'Models of associative memory']
+Wed 12 Dec	21	26	[34, 39, 62, 75, 76]	['Important concepts', 'Passive properties of neurons', 'Hogkin-Huxley model', 'Synaptic Input', 'The integrate and fire model', 'Single neuron firing statistics and noise', 'A visual processing task: Retina and V1', 'Higher Visual Processing', 'Neural Coding and Decoding', 'Networks of Neurons', 'Making Decisions and Motor Output', 'Models of associative memory']

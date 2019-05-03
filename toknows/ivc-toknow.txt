@@ -1,0 +1,288 @@
+1 Images and Image formation
+
+• What is a signal? How do  we collect information from signals?
+- A function s = f(x,y,t) which represents a physical aspect of an image, such as brightness. We can sample signals. Sampling in 1D returns the vector of values from a given function on a set of sample points, in 2D it returns a matrix.
+
+• What is the conceptual pipeline for image formation? In words, what is Image Capturing?
+- Illumination source -> Scene element -> Imaging system -> Image plane (camera sensor) -> Output Image (pixel matrix). Sampling light intensity in space and time, and quantize the result.
+
+• What is Quantization?
+- Is the process of approximating continuous values by discrete ones, typically to store pixel values compactly.
+
+• What does fidelity depend on?
+- Sampling density (spatial resolution) and quantization strength (radiometric resolution).
+
+• Define light, radiance, irradiance and radiosity.
+- Light: electromagnetic radiation moving along rays in space. \nRadiance: energy carried by a ray, measured in units of power given a wavelength \lambda. \nIrradiance: energy per unit area falling on a surface. \nRadiosity: energy per unit area leaving a surface.
+
+• What 6 factors determine the brightness of an image pixel?
+- Light source properties, surface shape and orientation, surface reflectance properties, optics, exposure and sensor characteristics.
+
+• What happens when a light ray hits an object?
+- Some is absorbed, some is transmitted through, and some is reflected.
+
+• What is and how is the Bidirectional Reflection Distribution Function (BRDF) characterized?
+- It is a measure of the proportion of a ray of light reflected from a surface. It is a function of \theta (angle with respect to normal) and \phi (angle on the surface) of both incoming and outgoing rays as p(\theta_i,\phi_i,\theta_e,\phi_e).
+
+• How is the Lambertian surface BRDF formulated? What does the brightness depend on in Lambertian surfaces?
+- It assumes light is reflected equally, so B = p(N \dot S) = p|S|cos(\theta), where \theta is the angle of incidence, p the albedo (fraction of incidence irradiance reflected by the surface), N the normal and S the source vector (proportional to its intensity).
+
+• How is light reflected in a perfect and near-perfect mirrors (Specular reflection)?
+- For a perfect mirror the intensity of the light is reflected equally along the specular direction R, and 0 everywhere else. For near-perfect mirrors we have I_e = k_s(V \dot R)^{n_s}I_i, where n_s specifies how sharply the light should flow across the possible viewing angles.
+
+• What are some applications of reflectance modelling?
+- Estimating direction of a light source to detect fake photos, obtain the shape of a face from shading.
+
+• Describe how the eye works as a camera. What is the fovea? How do we sense light intensity?
+- The pupil acts as the aperture to light rays, whose size is controlled by the iris. The sensors are non-uniformly distributed photoreceptor cells in the retina, rods which perceive intensity, and cones which perceive color. The fovea is a small region containing the highest density of cones. We sense light intensity on a logarithmic scale.
+
+• How is the relative spectral power defined? How do rods and cones relate to the light spectrum? 
+- As a graph with wavelengths ranging from 400-700nm, describing the amount of energy emitted per time unit. Rods and cones act as filters on the spectrum, reducing all colors to three real numbers representing the S, M and L cones. The output of a filter can be computed as the product between its respone curve and the spectrum, integrated over all wavelengths.
+
+• How do cameras capture RGB?
+- A 3-chip camera will have a prism and 3 sensors reparating the signal into the 3 channels. A 1-chip will use a Bayer filter, which uses only 1 sensor and pixels alternately measure the RGB channels and afterwards interpolates the colour of the rest of the pixels.
+
+• How do we adapt RGB to cope with changing illumination (like (2r,2g,2b))?
+- Normalize RGB.
+
+• What is HSV?
+- Hue, colour spectrum; Saturation, white to colour; Value, shading or black to colour.
+
+• Describe the Pinhole camera model.
+- It captures pencil of rays (rays through a single point), where the point is called the Center of Projection (COP), in an Image Plane. The distance from COP to the plane is the effective focal length. Given a point (x,y,z) in the world, in the 2D image plane it will be transformed to (-fx/z, -fy/z) (similar triangles). To obtain the virtual image flip horizontally and vertically as (fx/z, fy/z).
+
+• What do we lose and preserve when projecting 3D to 2D?
+- We lose angles and distances, we preserve straight lines and incidence.
+
+• What is the horizon?
+- The vanishing line of the ground plane. The vanishing line is where one can observe all vanishing points, i.e. the points where all parallel lines converge to.
+
+• How do we do perspective projection with homogeneous coordinates?
+- Homogeneous coordinates are the original coordinates plus a unit coordinate ((x, y) -> [x y 1]^T). To convert back from homogeneous coordinates we simply divide the original coordinates by the last one. Perspective projection then is just a matrix multiply P' = MP, where M is a projection matrix and P our point in cartesian coordinates.
+
+• What are some applications of projective geometry?
+- Inserting synthetic objects into images, rectification of images, or obtaining 3D models from a single image.
+
+• Why do we not make the aperture as small as possible, if increasing size leads to increasing blur?
+- Because then less light gets through, and diffraction also increases blurring.
+
+• What is the relation between the focal length f, the distance of the object from the optical center D, and the distance at which the object will be in focus D'?
+- Similar triangles: y'/y = D'/D and y'/y = (D'-f)/f leading to the lens equation 1/D' + 1/D = 1/f. Any point satisfying the lens equation is in focus.
+
+• Is BRDF dependent on wavelength?
+- It could be.
+
+• What is ambient light in the Phong model?
+- Background, diffuse and non-directional light specified as a constant to specular and Lambertian terms.
+
+• How is the color reflected from an object created?
+- As a result of interaction of light source spectrum with surface reflectance. 
+
+• Assume a camera at the origin (0, 0, 0). Assume a focal length of f=10mm. Where would a point (10,20,30) in the scene be seen in the image plane?
+- (3.3, 6.7)
+
+2 Filtering and Edges 
+
+• What are the 3 main low-level image processing operations?
+- Point operators: output pixel from input pixel, such as histogram equalization, contrast, pixel inversion, etc. \nImage Filtering: output pixels as a function of the local neighborhood around input pixel, used to remove unwanted sources of variation or keep relevant information. \nFourier Transforms: decompose luminance into the sum of a set of sinusoidal gratings differing in spatial frequency, orientation, amplitude and phase (manipulating power spectra). Can use to create hybrid images.
+
+• What 5 things could filters do? What is the equation of the generic filter (correlation)? What is special about the box filter? What differs between convolution and correlation?
+- Smooth/sharpen, remove noise, increase/decrease contrast, enhance edges and detect orientations, and detect image regions matching a template. If h is the output, f the filter and I the image, then: h[m, n] = \sum_{k,l}f[k, l]I[m + k, n + l]. The filter is a grid of ones multiplied by 1/n where n is the number of elements in the grid (average, achieves smoothing). Convolution's image is processed as I[m - k, n - l], however when filters are symmetrical there is no difference.
+
+• What is the difference between mean and median filters? What are the properties of linear filters?
+- Apart from the distinction between operations, median is not a linear filter and thus cannot be expressed as a convolution. However, it is better at removing salt and pepper noise. Linearity, and shift-invariance.
+
+• What are the properties of convolutions?
+- Commutative (a * b = b * a) and associative (a * (b * c) = (a * b) * c), distributes over addition, scalar factors out and identity.
+
+• What are the properties of Gaussian filters?
+- \sigma controls smoothing, removes high-frequency components from the image (low-pass filter), convolution with self is another Gaussian, and kernel is separable.
+
+• How do we deal with missing pixel values due to the window falling off the edge of an image?
+- Must extrapolate, through doing clip filter, wrap arounds, copying the edges or reflecting across edges.
+
+• What is the difference in performance when convolving an nxn image with an mxm kernel with and without separate kernels?
+- O(m^2n^2) vs O(mn^2)
+
+• Why are edges interesting and what causes them? What is an edge specifically?
+- Because our brain is optimized to detect them, they summarize salient semantic information and they conveniently encode geometric information about the scene. What causes them are a variety of factors: depth change, illumination change, texture change, color change or material change. An edge is a place of rapid change in the image intensity function.
+
+• What characterizes image gradients?
+- The gradient itself \Deltaf which points in the direction of most rapid increase in intensity; the gradient direction \theta = tan^{-1}(df/dy / df/dx); and the edge strength |\Deltaf| = \sqrt{(df/dx)^2 + (df/dy)^2} 
+
+• What is the derivative theorem of convolution? How can we find edges using it?
+- d(f*g)/dx = f*(dg/dx). Let f(x) be the signal, taking the derivative with respect to x is lost so we can exploit the properties of the theorem. Convolve with smoothing kernel g, then take the derivative d(f*g)/dx and find peaks. To make it more efficiently, take the derivative of the filter dg/dx and convolve the signal with it f*(dg/dx).
+
+• How does the Canny Edge Detector work?
+- It computes x and y gradient images, then finds the magnitude and orientation of the gradient, performs non-maximum suppression (which makes ridges down to pixel width), and then linking and thresholding (hysteresis).
+
+• How do we find bigger edges?
+- Changing the scale of the Gaussian filter (the std).
+
+• Should the values of the smoothing and derivative filters ever be negative and sum to 1?
+- Only positive and sum to 1 values for smoothing, negative are fine and sum to 0 for derivative. 
+
+• How do we evaluate edge detection algorithms?
+- Using segmentation databases, we can compute how precisely the edge detection matches segmented images (precision-recall curve). 
+
+• How does least squares line fitting work? What are the advantages and disadvantages of least squares?
+- Given data (x_1, y_1),...,(x_n, y_n), line equation y_i = mx_i + b, find (m, b) to minimize E = \sum_{i=1}^n (y_i - mx_i - b)^2 = |Ap - y|^2. The closed form solution is p = (A^TA)^{-1}A^Ty. It is good because it has a clearly specified objective and optimization is easy, however it is sensitive to outliers and doesn't allow multiple good fits (like detecting multiple objects).
+
+• What was Random Sample Consensus (RANSAC) introduced for? How does it work? 
+- Model fitting in the presence of outliers, as well as fitting various types of models. Sample a small subset of points uniformly at random, fit a model to the subset, find all points close to the model and reject the rest as outliers, repeat and choose best model.
+
+• What are the parameters of RANSAC? What are the disadvantages of it?
+- s: sample size, increases with complexity; t: threshold, appropriate to separate noise and outliers; N: iterations, increase to find better answers to complex models or models with higher outlier ratio. Disadvantages include growing computational time with fraction of outliers and number of parameters, can't find multiple fits, and needing to tune various parameters.
+
+• How do Hough Transform works? Can we find a circle with fixed radius?
+- Create grid of parameter values, each point votes for a set of parameters (line in [m, b] space), incrementing those values in the grid, then find maximum. Issue is that [m, b] are unbounded, but could solve by using polar representation (p = xcos(\theta) + ysin(\theta)).
+
+3 Interest Points, Descriptors and Matching
+
+• What can Interest Points be used for?
+- Image alignment, 3D reconstruction, motion tracking, robot navigation, object recognition, etc.
+
+• What is the high-level pipeline for matching?
+- Detect distinctive key points, extract feature descriptors around each, and match them by computing distances between feature vectors.
+
+• What are the characteristics of good keypoints?
+- Repeatability (same keypoint in several images), saliency (no two keypoints the same), compactness and efficiency (less keypoints than pixels), and locality (robust to clutter and occlusion).
+
+• What is a Principal Component? How does PCA work?
+- First is the direction of highest variance, second the direction with highest variance orthogonal to the previous, and so on. Substract off the mean for each data point, compute covariance matrix, eigenvectors and eigenvalues, and rank eigenvectors by the eigenvalues.
+
+• How does the Harris Detector work?
+- Compute derivatives at each pixel and smooth with Gaussian. \nCompute Harris matrix in a window around each pixel (H = \sum_{(u,v)}w(u,v)[I_x^2 I_xI_y; I_xI_y I_y^2]). \nCompute corner response function R (R = \lambda_1\lambda_2 - \alpha(\lambda_1 + \lambda_2)^2 = det(M) - \alpha trace(M)^2). \nThreshold R to find points with large response. \nNon-maximum surpression, take only the points of local maxima.
+
+• What are the properties of Harris corner detector?
+- Partially intensity invariant (to shift not scale), translation and rotation invariant, not scale invariant.
+
+• What is the idea of SIFT detector? What is a good filter to use? What post-processing steps do we tend to do when using SIFT detector?
+- Convolve the image with a blob filter at multiple scales and look for extrema of filter response in the resulting scale space. \nLaplacian of Gaussian (\Delta^2g = d^2g/dx^2 + d^2g/dy^2), however it's expensive so in practise approximate using Difference of Gaussians (DoG). DoG works the following way: blur image with \sigma kernel, blur image with k\sigma kernel, substract the first from the second. \nRemove points with DoG response below threshold, and filter based on the Harris function at each blob.
+
+• How does the SIFT descriptor work? What post-processing do we do on SIFT descriptors? How do we make it orientation invariant?
+- It computes the gradient of each cell in a 4x4 grid for each 16x16 patch in the image, resulting in a 128 dimensional descriptor. \nWe do Gaussian weighted magnitudes, trilinear interpolation, threshold gradients to avoid domination by outliers, and normalization. \nWe perform orientation normalization: compute orientation histogram, select dominant orientation \theta, and normalize by rotating the image by \theta.
+
+• What is a basic keypoint matching routine? What issues arise? How can we make it more robust?
+- For every patch in the first image, try to find the most similar patch in the second using a distance metric such as sum-squared between descriptors. Main issue is the high number of outliers, and the fact that not all points will be detected in both images. Could threshold the distances based on experiments, but won't be great. Instead, best thing to do is to require symmetry such that x is NN to y and viceversa with 1-NN and 2-NN and find ratio 1-NN/2-NN.
+
+• How do we align two images? Is there a more robust way of doing it?
+- Given the correspondences (x_i, y_i) -> (x_i', y_i') for all i, fit them to a transformation t by least squares, i.e. find t that minimizes |At - b|^2. Can use RANSAC in the following way: select seed group of matches, compute transformations, find inliers (ssd(x, Hx') < thr), keep the transformation with largest number of inliers.
+
+• How do we compute histogram distances?
+- Could do Euclidean, but better for histograms would be intersection or Chi-squared.
+
+4 Object and Scene Recognition
+
+• How does Dense HOG work? What are the benefits and issues?
+- Like SIFT descriptor, but histogram is done over each patch of the image. Benefits: simple and fast, invariant to illumination change (since they're gradients), robust to small changes in viewpoint/scale/pose due to quantization, robust to clutter given that the clutter has random orientation. Issues iclude: number of cells proportional to size image so different sized images have different sized descriptors (fix size to solve), not robust to translation, major change in pose, viewpoints, etc.
+
+• How does LBP work? What does it characterize?
+- Represents image or patch by histogram of LBP code frequencies. For each pixel identify surrounding greater or less than it, use this pattern to define new value of central pixel (roll kernel into binary digit), and bin them. It characterizes flat surfaces, oriented edges, corners, etc.
+
+• How does BOW work?
+- It characterizes an image by words representing meaningful visual instances. First it extracts features, then learns a visual vocabulary using k-means clustering resulting in a codebook, then quantize features of a new object using the codebook, and represent images as the frequencies of the visual words.  
+
+• What is different in the spatial pyramid representation of BOW?
+- It represents BOW and several levels of resolution rather than having a global BOW.
+
+• What are the pros and cons of using KNN? What are the pros and cons of SVMs?
+- KNN - Pros: simple, fast training, works on any number of classes, control robustness and accuracy through K. Cons: slow at test time (specially with big data), may degrade with very high dimensional features (curse of dimensionality), need a good distance function. \nSVM - Pros: kernel-based framework makes it powerful, training is convex, amenable to theoretical analysis, works well in practise, with gradient descent scales to large sample size. Cons: lack of direct multi-class (must do one vs all), doesn't scale well in computation or memory to large sample sizes.
+
+• How is a linear function separating classes characterized? What are the pros and cons of linear classifiers?
+- f(x) = sgn(wx + b). Pros: low-dimensional parametric representation and fast at test time. Cons: works for two classes, unclear how to train and data may not be linearly separable. 
+
+• What do SVMs do?
+- Find the hyperplane that maximizes the margin (2/|w|) between positive and negative examples. The problem is posed as min_{w,b}1/2|w|^2 st y_i(wx_i + b) >= 1, however if the data is non-separable then min_{w,b}1/2|w|^2 + C\sum_{i=1}^nmax(0, 1 - y_i(wx_i + b)). To do so we can use GD.
+
+• Why do we need the kernel trick? Are there many types of kernels?
+- Because often the data is not linearly separable, and thus we need to map the input space to higher-dimensional space where it is separable. Can replace x by K(x,y) = \phi(x)\phi(y). Yes, polynomial, histogram intersection, etc.
+
+• What do we mean by model complexity? How do we determine it?
+- Degrees of freedom, the ability to fit a complicated decision boundary. Split into train, validation and test.
+
+5 Object Detection and Counting
+
+• Describe the flow of detection. How do we evaluate detectors?
+- Enumerate Hypotheses: use sliding window. \nRepresent a Hypothesis: use Dense HOG, better than BOW for detection since BOW discards spatial information (the opposite for scene recognition). \nScore Hypotheses: train a linear SVM and use to score bounding boxes. \nResolve Detections: using non-max supression. \nWe can evaluate detectors by sorting detections by confidence and computing precision (TP/TP+FP), recall (TP/TP+FN) and plot the curve (AP and mAP).
+
+• What is the ideal FP rate to avoid having a false positive in every image?
+- FP rate < e-6, if e6 putative bounding boxes and <10 objects.
+
+• When is HOG-SVM not a good detector?
+- When detecting highly deformable objects, large pose variability, or occlusion (such as cats and dogs).
+
+• Explain the idea of hard negative mining.
+- Train on a randomly initialized training set. The idea is to classify all bounding boxes, find false positives and include in the training set as negatives, repeat.
+
+• What are deformable part models? How do they work?
+- Framework introduced to alleviate the limitations of rigid-template SVM-HOG model, achieves better performance at detecting objects with articulated deformation or occur in multiple typical views. They extend the object model to have a root template, as well as several deformable parts. The score now is the sum of filter scores minus the sum of deformation costs (score(p_0,...,p_n) = \sum_{i=0}^nF_iH(p_i) - \sum_{i=1}^nD_i(dx_i,dy_i,dx_i^2,dy_i^2)) and retrieve the max. Classifier is now f(x) = max_z wH(x,z) where z are the latent hypotheses.
+
+• How do we count object detections?
+- Can just sum detection instances, but if we expect it too large of a number can do regression. Instead or training classifier y = sign(w'x) we train y = w'x and training image count pairs are the images and ground truth number. Using E_{MSE} we just need w = (X^TX)X^Ty. 
+
+6 Segmentation
+
+• What are the differences between supervised and unsupervised segmentation?
+- In the supervised approach some labeled training data is required, need to train model and inference, and is needed for semantic segmentation. On the other hand, unsupervised doesn't need training data and can be applied directly to an image.
+
+• What are the design challenges in segmentation by clustering?
+- 1. How to represent pixels and to measure their similarity (color, position, texture, etc.). \n2. How to compute the grouping from the representations (K-means, mean-shift, graph cut).
+
+• What is the goal of K-means? State the algorithm.
+- Find cluster assignments \delta, and centers c that minimize the spread of each cluster, e.g. c*, \delta* = argmin_{c,\delta}(1/N)\sum_{j}^N\sum_{i}^K\delta_{ij}(c_i - x_j)^2. \n1. Initialize cluster centers c^0; t=0; \n2. Assign each point to the closest center \delta^t = argmin_{\delta}(1/N)\sum_j^N\sum_i^K\delta_{ij}(c_i^{t-1} - x_j)^2. \n3. Update cluster centers as the mean of the points c^t = argmin_c(1/N)\sum_{j}^N\sum_{i}^K\delta_{ij}^t(c_i - x_j)^2. \n4. Repeat 2-3 until no points are reassigned, t += 1.
+
+• What are the pros and cons of K-means?
+- Pros: simple to implement and efficient. Cons: hard quantization, doesn't handle non-spherical clusters, memory intensive, sensitive to initialization and sensitive to outliers.
+
+• What is the goal of mean-shift segmentation? How does it work? What are the pros and cons?
+- To find modes of a given set of points. First it featurizes each pixel (color, gradients, etc), then for each it initializes the mean shift window, use it to discover the peak or mode, and group pixels that end up on the same peak or mode. \nPros: good general-practice segmentation, flexible in the number and shape of regions, single parameter (window size) and is robust to outliers. Cons: have to choose kernel size in advance and is computationally expensive.
+
+• What is an attractor basin? How does it relate to the cluster?
+- It is the region for which all trajectories lead to the same mode. The cluster is composed of all the data points in the attraction basin of a mode.
+
+• What is the principle of graph-based image segmentation?
+- To segment based on graph partition of the weighted graph representation of an image (G = (V, E, W)). Partition is most easily done by breaking graph into segments through deleting links with low cost (edges with lowest sum of weights).
+
+• How do we represent graphs as matrices? How do we represent the features in this way?
+- Sparse matrices such as: adjacency matrix, which is symmetric with 0s in the diagonal and 1s in locations (i,j) where there is a link between (i,j); affinity matrix, same but with 1s in diagonal and weights instead of 1s. \nGiven the feature vectors, we can compute the distance between them and convert to an affinity/similarity measure with a Gaussian kernel (exp(-1/2\sigma^2 dist(x_i, x_j)^2)).
+
+• How do we define cuts? How do we encourage larger segments? Explain how the normalized cut algorithm works.
+- cut(A, A') = \sum_{i \in A, j \in A'}w_{i,j}. By normalized cut: ncut(A,B) = w(A,B)/w(A,V) + w(A,B)/w(B,V). In this way big segments will have a large w(A,V) and decreases ncut(A,B). Given W, the affinity matrix, construct D as the diagonal matrix with entries D(i,i) = \sum_jW(i,j) and solve the generalized eigenvalue problem (D - W)y = \lambdaDy for the eigenvector with second smallest eigenvalue. Can use y as soft indicators of component membership.
+ 
+• What are the pros and cons of normalized cuts?
+- Pro: generic framework, can be used with many features and formulations. Cons: high storage requirement and time complexity from solving the eigenvalue problem.
+
+• What is the disadvantage of just training on image pixels in a supervised way? How can we improve on it?
+- Very weak spatial coherence of the result. Can define labeling c as an assignment to class, and find the one that minimizes a global energy function such as a Markov Random Field (E(c|x) = \sum_if_i(c_i,x) + \sum_{i,j \in E}g_{ij}(c_i,c_j,x)). A good low-energy solution is one where every pixel is aligned with independend label (f). The unary term could be f_i(c,x) = -logP(c|x_i), and pairwise potentials g_{ij}(c,c',x) = w_{ij}|c - c'|
+
+• Why would we want to do foreground segmentation?
+- Intrusion detection, preprocessing for detection/recognition, step in the pipeline for video tracking.
+
+• What are the 3 main ideas to do foreground segmentation and their issues?
+- 1. Background Subtraction: having an image of the empty scene can substract frame from the background and threshold the result. Issues include: global lightning changes, moving background textures, unavailable background image, threshold sensitivity. \n2. Frame differencing: subtract frame t with t-1 and threshold result. Issues include: sensitive to moving backgrounds, threshold sensitive to object speed, in the case of textureless objects, may only detect front & rear edges. \n3. Gaussian Modelling: take a sliding window of video frames, fit a Gaussian/GMM to the history of each pixel in the video and test each pixel of a new frame for probability under that Gaussian. Pros: most robust to moving background, most robust to lightning changes.
+
+7 Deep Learning
+
+• What is the difference between GD, SGD and mini-batch?
+- SGD is gradient descent performed per randomly sampled data point, while mini-batch is per subset of points.
+
+• Pros and Cons of NNs.
+- Pros: flexible and general function approximation framework, and can build extremely powerful models by adding more layers. Cons: hard to analyze theoretically, huge amount of training data, computing power for good performance, and the space of implementation choices is huge.
+
+• Briefly describe hidden units, network complexity, and weight matrices. What's the computational cost of backpropagation?
+- Hidden units are feature detectors for mid-level features, complexity is driven by the number of layers and hidden units, and weight matrices are set using GD to tune the network so that the forward pass minimizes the loss function.
+
+• How do we deal with oscillating GD?
+- Either reduce the learning rate (learns slower), or use momentum.
+
+• Derive the softmax.
+- DO
+
+• What are the typical architectures for recognition, annotation, regression, semantic segmentation, detection?
+- Recognition: maxpool for spatial invariance, softmax output and cross-entropy loss function. \nAnnotation: maxpool for spatial invariance, multiple independent sigmoid outputs, and sum of cross-entropy losses function. \nRegression: maxpool for spatial invariance, single linear output and mean squared error loss function, or multiple linear outputs and sum of mean squared error losses. \nSemantic segmentation: fully convolutional, one softmax output per pixel and classify each. \nDetection (YOLO): multiple predictions corresponding to a grid of cells, each cell containes (x,y,w,h) regressor and a class probability, aggregate all cell predictions and non-max suppression. 
+
+• What types of regularization are there?
+- Early stopping: stop early based on a criterion as a function of the test set error; weight decay: add a cost to having high weights; dropout: ignore a randomly selected subset of neurons at each mini-batch, makes network learn more robust features; data augmentation.
+
+

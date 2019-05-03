@@ -1,0 +1,297 @@
+1 Weak assumptions to Factor Graphs
+
+• What assumptions do we make?
+- 1
+
+• Advantages of the ordered Markov property
+- 1
+
+• How do we represent graphs?
+- 1
+
+• Give the table for connections and independencies for 3 directed connected nodes
+- 1
+
+• Advantages and disadvantage of D-separation
+- 1
+
+• Define I-map and P-map, Markov Blanket
+- 1
+
+• State the Gibbs distribution, and the energy-based model
+- 2
+
+• Define maximal cliques, graph separation. Advantages of graph separation
+- 2
+
+• Summary of equivalences
+- 2
+
+• State the intersection property between sets X,Y,Z
+- 2
+
+• Define minimal I-maps, I-equivalence. Do we ever say UGs are I-equivalent?
+- 2
+
+• When should we use DAGs vs UGs?
+- 2
+
+• Why do we need Factor Graphs? What are the advantages of Factor Graphs?
+- 3
+
+2 Tutorials for Weak assumptions to Factor Graphs
+
+• Tutorial 1: Q1, Extra Q2
+- L
+
+• Tutorial 1: Q2, Extra Q1
+- L
+
+• Tutorial 1: Q3, Extra Q4
+- L
+
+• Tutorial 1: Q4, Extra Q3
+- L
+
+• Tutorial 2: Q1, Extra Q1
+- L
+
+• Tutorial 2: Q2, Q3
+- L
+
+• Tutorial 3: Q1, Extra Q2
+- L
+
+• Tutorial 3: Q2, Extra Q1
+- L
+
+• Tutorial 3: Q3
+- L
+
+3 Exact Inference 
+
+• Tutorial 4: Q1	
+- L
+
+• Tutorial 4: Q2	
+- L
+
+• Tutorial 4: Extra Q1	
+- L
+
+• Key idea and advantages of Exact Inference
+- 3
+
+• Derive variable (bucket) elimination
+- 3
+
+• What is the sum-product/message passing algorithm? Advantages. What if the graph is not a tree?
+- 3
+
+• Do the lecture's example on max-product algorithm
+- L
+
+• What are the rules of message passing?
+- Notes for Tutorial 4
+
+4 Exact inference for HMMs
+
+• State the L-th order Markov chain, 1st order transition distribution, 1st order emission distribution
+- 4
+
+• State the classical inference problems for HMMs
+- Slides 17/32
+
+• Why does a Gaussian emission model with discrete-valued latents and independent hiddens lead to a Gaussian mixture model?
+- Slides 14/32
+
+• Derive alpha recursion (filtering)
+- Slides 20/32
+
+• Derive beta recursion (smoothing)
+- Slides 27/32
+
+• Tutorial 5: Extra Q
+- L
+
+• Tutorial 5: Q1 a),b)
+- L
+
+• Tutorial 5: Q1 c),d)
+- L
+
+• Tutorial 5: Q1 e),f),g)
+- L
+
+5 Basics of Model-Based Learning
+
+• What do we mean by "using a model to learn from D"? State the difference between probabilistic, statistical and Bayesian model. Write down the functional form of a partition function, then for a Gaussian (mu=0) and Boltzmann (mu=0) distributions.
+- 4
+
+• How does the statistical model estimate the parameters? 
+- 4
+
+• Show we can reparameterize the MLE for a Bernoulli distribution
+- Slides 41/66
+
+• Show we the MLE can be interpreted as moment matching
+- Slides 48/66
+
+• What are some limitations of MLE?
+- Slides 52/66
+
+• How does the Bayesian model estimate the parameters? 
+- 5
+
+• How can the posterior inference be interpreted?
+- 5
+
+• What are conjugate distributions?
+- 5
+
+• Tutorial 6: Q1, Extra Q2
+- L
+
+• Tutorial 6: Q3, Extra Q1
+- L
+
+• Tutorial 6: Q2
+- L
+
+6 Factor Analysis and ICA
+
+• Similarities and differences between FA and ICA
+- Both have same DAG, p(v|h;\theta) and require methods like gradient ascent for the MLE. \nIn FA all random variables are Gaussian, latents are uncorrelated and H < D and likelihood is multivariate Gaussian. \nIn ICA latents are non-Gaussians and independent, mixing matrix A instead of factor matrix F, H > D or H < D, and likelihood depends on B = A^{-1}.
+
+• What is the factor rotation problem in FA?
+- 5
+
+• What is the ordering ambiguity of ICA?
+- 6
+
+• How does ICA solve the factor rotation problem from FA?
+- Through non-Gaussianity of the latents: sub-Gaussian pdf if less peaked at 0 than Gaussian of the same variance, or super-Gaussian if more peaked.
+
+• How is FA defined?
+- 5
+
+• What does it mean for a model to hold ambiguities?
+- 5
+
+• Derive the likelihood of ICA
+- 6
+
+• Tutorial 7: Q1
+- L
+
+• Tutorial 7: Q2
+- L
+
+7 Intractable Likelihood Functions
+
+• State the curse of dimensionality
+- Solutions feasible in low dimensions become quickly prohibitive as dimension d increases
+
+• What do we do when the likelihood is intractable due to unobserved variables?
+- 6
+
+• What do we do when the likelihood is intractable due to the partition function?
+- 6
+
+• Why is it necessary to have a sound partition function for MLE?
+- Because it is a term involved in the likelihood and so ignoring it leads to meaningless solutions. Consequently errors in approximating Z lead to errors in the MLE.
+
+• What do we do when the likelihood is intractable due to both unobserved variables and the partition function?
+- 7
+
+8 Estimating Unnormalised Models by Score Matching
+
+• Show how the MLE can be interpreted as the KL divergence
+- 7
+
+• What is the core principle of score matching? How does it work?
+- Want to find parameters \theta by matching the slope of the normalized distribution (nabla_e logp(e;\theta) \approx nabla_e logp_*(e)), since the gradient of logp(e;\theta) does not depend on the partition function
+
+• Tutorial 7: Extra Q1
+- L
+
+9 Sampling and Monte Carlo Integration
+
+• State the principle of Monte Carlo integration. Why do we say it is unbiased? State the weak law of large numbers and why it is "weak"? Where does it come from?
+- 7
+
+• Show how we typically use Importance Sampling. Why is it unbiased? How do we choose the proposal distribution?
+- 8
+
+• Show how we can use Importance Sampling to approximate the partition function, and the expectation of a function g(x) under p(x). What are the (normalized) importance weights?
+- 8
+
+• How do we sample univariate discrete and continuous random variables?
+- 1. Sample from a uniform and retrieve the value from a discretized range between 0-1. \n2. Use inverse transform sampling, given a cdf F(\alpha) = Pr(x \leq \alpha), calculate the inverse transform F_x^{-1}, sample n (iid) rvs y_i from U(0,1) and transform them back as x_i = F_x^{-1}(y_i)
+
+• How does Rejection Sampling work?
+- Using a proposal distribution q(x), find a constant k such that kq(x) \geq p(x) \forall x. The for each step: \n1. Generate a number x_0 from q(x). \n2. Generate number u_0 from U(0, kq(x_0)). \n3. Accept u_0 if u_0 \leq p(x_0). \nAcceptance probability is p(accept) = 1/k \int \hat p(x)dx
+
+• How does Ancestral Sampling work?
+- Generate samples from a joint probability by sampling each term individually
+
+• How does Gibbs Sampling work? Do we need to use all the other variables each time? Are the samples independent?
+- 8/9
+
+• How does Metropolis-Hastings work?
+- Iteratively sample parameters \theta' from proposal q(\theta';\theta^{(s)}) as the basis for the Markov chain, accept \theta' (meaning \theta^{(s+1)} <- \theta') with acceptance probability P(accept) = min(1, \frac{\pi*(\theta')q(\theta^{(s)};\theta')}{pi*(\theta^{(s)})q(\theta';\theta^{(s)})}). If using Gaussian proposal then remove proposal from P(accept) since q(x'|x) = q(x|x').
+
+• Tutorial 8: Q1
+- L
+
+• Tutorial 8: Q2
+- L
+
+• Tutorial 8: Q3
+- L
+
+10 Variational Inference and Learning
+
+• What principles do we need for the Variational principle to hold? Show the non-negativity and asymmetry properties of the KL divergence.
+- 9
+
+• What do we do to make the energy computable? 
+- 10
+
+• How do we arrive to the variational lower bound? How does the free-energy decompose? State the Variational principle.
+- 10
+
+• What do we mean by "the posterior variance is underestimated"?
+- 10
+
+• How do we estimate the parameters of a model with unobserved vaiables? What is the interpretation of the free energy (with data D)?
+- Slides 27/36
+
+• How does Variational and classical EM work? 
+- Slides 31/36
+
+• Why do we say the classical EM algorithm never decreases the log-likelihood?
+- Slides 34/36
+
+• What sort of random variables h do we look for when maximizing J_F?
+- Those that are maximally variable (large entropy), and maximally compatible with the observed data (according to p(D,v;\theta))
+
+
+11 Learning for HMMs
+
+• What are the assumptions when learning for HMMs? How do we parameterise the probabilities?
+- 10
+
+• How could we optimize the parameters? Why would we choose one or the other?
+- Slides 12/25
+
+• Show that we need not compute the full posterior on h given the data
+- Slide 15/25
+
+• Derive the full expectation to optimize. Can we optimize each term independently?
+- Slides 16/25 - 20/25
+
+• Show how to optimize each term in the final optimization problem with objective J(\theta, \theta_{old}). Which terms can we learn through message passing? Lay out the full EM algorithm
+- Slides 24/25 (and previous)
+
+

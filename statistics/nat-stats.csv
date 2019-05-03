@@ -1,0 +1,25 @@
+Date	Correct	Answered	Wrong	Topic
+Sat 08 Dec	2	2	[]	GA
+Sat 08 Dec	3	3	[]	GA
+Sat 08 Dec	3	3	[]	GA
+Sun 09 Dec	2	8	[0, 3, 4, 5, 6, 7]	Evolutionary Algorithms
+Fri 14 Dec	4	8	[0, 5, 6, 7]	Evolutionary Algorithms
+Fri 14 Dec	8	8	[]	Evolutionary Algorithms
+Fri 14 Dec	0	15	[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]	GA
+Fri 14 Dec	11	15	[1, 8, 9, 11]	GA
+Fri 14 Dec	0	10	[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]	PSO
+Sat 15 Dec	5	9	[0, 4, 7, 9]	PSO
+Sat 15 Dec	1	12	[0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11]	ACO
+Sat 15 Dec	11	12	[9]	ACO
+Sat 15 Dec	38	42	[20, 31, 32, 42]	('Evolutionary Algorithms', 'GA', 'PSO', 'ACO')
+Sat 15 Dec	0	4	[2, 5, 7, 8]	Computational and Statistical Aspects
+Sun 16 Dec	2	11	[0, 1, 2, 3, 4, 6, 8, 9, 10]	Computational and Statistical Aspects
+Sun 16 Dec	11	11	[]	Computational and Statistical Aspects
+Sun 16 Dec	0	17	[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]	Theory of MHO
+Sun 16 Dec	12	16	[0, 1, 6, 9]	Theory of MHO
+Sun 16 Dec	0	11	[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]	Genetic Programming
+Sun 16 Dec	7	11	[5, 8, 9, 10]	Genetic Programming
+Sun 16 Dec	0	8	[0, 1, 2, 3, 4, 5, 6, 7]	More on MHO algos
+Sun 16 Dec	7	8	[5]	More on MHO algos
+Sun 16 Dec	41	42	[20]	('Evolutionary Algorithms', 'GA', 'PSO', 'ACO')
+Mon 17 Dec	31	39	[1, 8, 11, 14, 17, 23, 32, 33]	('Computational and Statistical Aspects', 'Theory of MHO', 'Genetic Programming', 'More on MHO algos')

@@ -1,0 +1,291 @@
+1 Evolutionary Algorithms
+
+• How does natural evolution achieve improvement?
+- 3 principles: small random changes, selection of good individuals, and replenishing the population.
+
+• How does Hill-Climbing work?
+- Considering a single individual x \in R^d: apply a small change (using an operator), reject if F(x') < F(x) and accept otherwise, continue until no further improvements can be achieved.
+
+• What are the main considerations in Hill-Climbing?
+- The choice of operators.
+
+• How does the traditional annealing process in metals work?
+- Atoms at higher temperatures are more random, when cooling down they will settle into a perfect crystal locally. If done repeatedly, the crystals will become the dominant phase of the metal. 
+
+• How does Simulated Annealing work?
+- Repeatedly choose a possible solution x_t \in X, determine energy using the Boltzmann distribution, if the energy is worse than the previous one just continue, otherwise accept with probability exp(-1/T * \Delta F) or continue. 
+
+• What are the main considerations in Simulated Annealing?
+- 1. What neighbourhoods to use for selecting new solutions: randomly in an e-ball, temperature-dependent, or adaptive. \n2. How to change the temperature: using T(t) = T_0 / log(1 + t), reducing quicker leads to getting stuck in local minimum; possibly non-monotomous and adaptive schemes; fast annealing scheme uses Cauchy instead of Boltzmann.
+
+• How does Evolution Strategies work?
+- They create noisy versions of a population of initial solutions through mutation and select the best ones according to fitness.
+
+• What are the main considerations in Evolutionary Strategies?
+- 1. Multidimensional mutations: generate offspring using y = x + N(0, C'), where C' is the covariance matrix C after mutating the \sigma values. \n2. Nested ES: if there are hills of hills, find local maximum and generate 3 offspring populations that evolve in isolation. \n3. Naming conventions: (\mu, \lambda) - from \mu parents \lambda children are generated, selection only from \lambda; (\mu + \lambda) - same but selection from both; (\mu', \lambda'(\mu, \lambda)^{gamma}) - hierarchical nested variant, from \mu' parent sub-populations, \lambda' are generated, isolate for \gamma generations while generating \lambda children and \mu are selected, the best \mu' subpopulations then become parents for the new cycle.
+
+2 GA
+
+• How does the canonical GA work?
+- Given an adequate representation of the candidate solutions (usually strings of characters, or binary), initialize randomly and repeat until solutions are good enough: evaluate fitness, select intermediate population, do crossover or reproduction, and mutate.
+
+• What are the most common ways of doing selection for the intermediate population in GA?
+- 1. Choose max fitness. \n2. Roulette Wheel Selection: compute mean and normalized fitness, at each iteration select an individual using stochastic sampling with replacement. \n3. Roulette Wheel Selection (variant): same but using remainder stochastic sampling. In this case, if the fitness of the individual is equal to the mean it survives, if its less it survives with probability f_i / f, otherwise it gives offsprings int(f_i / f) and another with probability f_i/f - int(f_i/f). \n4. Tournament selection: select a pair of individuals and keep two copies of the winner of the tournament, or keep one copy of the winner plus p_t*winner or (1-p_t)*looser. Chance of survival depends on rank.
+
+• What is elitism?
+- Is the technique of keeping the best individuals unchanged to the next generation.
+
+• How does crossover work in GA?
+- For each possible pair, with probability p_c choose a position in the string to cut and re-attach crossing over the pairs of strings. Crossover point is usually chosen uniform-randomly.
+
+• How does Island model GA work?
+- It is a model to run on parallel machines, in which we evolve isolated subpopulations and allow them to migrate at certain intervals.
+
+• How does mutation work in GA?
+- For each individual, and for each position in the string, with probability p_m set the character to a random value.
+
+• What sort of applications has GA been used for?
+- Finding the best combination of investments to guarantee an acceptable balance of risk/reward in a stock portfolio; designing a chip circuit increasing efficiency by up to 18%; designing gas turbines; evolving robots; route scheduling.
+
+• What are schemas in GAs? What is the relationship between schemata and fitness?
+- A schema is a string containing wildcards, defining a set of solutions. All inheritable features of the phenotype are encoded in schemata. They are composed of an order, the number of bits declared, and length, number of bits plus wildcards. \nHigh fitness could be caused by a few good schemata.
+
+• State the Schema Theorem
+- Short, low-order, above-average schemata receive exponentially increasing trials in subsequent generations of a genetic algorithm.
+
+• What is the Building Block Hypothesis? How does crossover contribute to fitness using BBs?
+- A genetic algorithm seeks optimal performance through the juxtaposition of short, low-order, high-performance schemata. Crossover combines short, low-order schemata into increasingly fit candidate solutions.
+
+• What are the 3 kinds of Royal Road functions?
+- Steepest-ascent hill climbing (SAHC): flip bit from left to right in current-best and record fitness of each, reverting back each time. Update current best and repeat until convergence. \nNext-ascent hill climbing (NAHC): same but only revert if no fitness increase. \nRandom-mutation hill climbing (RMHC): flip bit in current-best, if fitness increases set new current-best and repeat until convergence. 
+
+• What is the hitch-hiking issue in GAs?
+- Once an instance of high-fitness schema is discovered, the unfit material, especially that just next to the fit part, spreads along with fit material. Slows discovery of good schemata in those positions.
+
+• What do we need for GAs to do better than hill-climbing? Is it possible to satisfy all constraints at once?
+- Independent samples, keep desired schemata (strong selection, but slow enough to avoid hitch-hiking), crossover good schemata quickly when found, and large N (to beat RMHC). No, tailor to the problem. 
+
+• How do we get from good to best individuals in GA?
+- Dynamically scale fitness as a function of generations of range, use rank-proportional selection and use elitism. Here the aim is to shift balance from exploration at the start to exploitation at the end.
+
+• Tutorial 5: Q1
+- DO
+
+3 PSO
+
+• What are the three basic rules for PSO?
+- 1. Separation: avoid collision with neighbouring agents. \n2. Alignment: match the velocity of neighbouring agents. \n3. Cohesion: stay near neighbouring agents.
+
+• How does the canonical PSO work?
+- For each particle: create two uniform random vectors r_1, r_2; update velocities according to v_i <- wv_i + \alpha_1 r_1 * (\hat x_i - x_i) + \alpha_2 r_2 * (\hat g - x_i), then update positions x_i <- x_i + v_i; get new fitnesses f_i; update local bests \hat x_i <- x_i if f(x_i) < f(\hat x_i); update global best \hat g <- x_i if f(x_i) < f(\hat g). 
+
+• What are the main differences between GA and PSO?
+- GA works for discrete problems, PSO for continuous; in GA mutations and crossover don't take fitness into account, in PSO the 'force' acts like a gradient; local and global bests in PSO, as opposed to parents. 
+
+• What are appropriate values for the parameters of PSO?
+- \omega = 0.1...0.9, \alpha_1 + \alpha_2 = 4, n = 20...200 and max velocity no larger than 10-20% of the range of x.
+
+• What kinds of additional terms could we add to PSO?
+- A repulsive term Z, alignment term, attraction to other particles, two different global bests, etc.
+
+• What are some reasons for improved PSO variants?
+- Global topology may contribute to premature convergence, biases tend to restric particles to the axes, and to control parameters.
+
+• What is topology in PSO?
+- Topology of the swarm defines the subset of particles with which each particle can exchange information. It determines how solutions spread through the population.
+
+• QUICK FIRE QUESTIONS: a. Why do we call the terms with α1, α2 “forces” and ω "inertia”? b. Would the algorithm work with negative values for α1 and/or α2? c. How well would the algorithm work for α1 >> α2 > 0 or for 0 < α1 << α2 ? d. What is the benefit from using ω close to 1? What is the downside of this? e. Would the algorithm necessarily diverge if ω ≥ 1? f. Would it work with negative values for ω? g. Discuss how diversity can be maintained in a particle swarm.
+- a.  Inertia is the tendency to retain a certain movement, and force is proportional to acceleration, i.e. the change of the velocity. Inertia in the physical sense would imply ω=1, so the use of arbitrary values of ω could be seen as “forces” and degree of inertia”. \nb. For negative α’s, the particles are repelled from the current best solutions, and the further the particles are away from the bests the stronger the repulsion gets such that the swarm will diverge even for small negative values of α1 < 0 and α2 < 0. If α1 < 0 < α2 and |α1| < |α2|, i.e. the personal best is repulsive, but the global best is attractive, the algorithm can still work. \nc.  This is not dynamical problem, but the performance will probably not be great, because the stronger global best seems preferable to a stronger personal best for relatively simple problems. For complex problems it could be useful to maintain a certain diversity which is achieved best by the personal bests. In simulations it often seems to be the case that the sum of the two (or the quadratic sum) is the more essential parameter as compared to their individual strength, but it one of the α’s is close to zero, then the performance usually drops. \nd.  We assume there that |ω|<1, then the particles continue for a long time and perform large excursions, before being retract by the distance-dependent forces. The benefit is more exploration, the downside is less exploitation. \ne.  Yes. It may seem that this is not necessary as the forces retract the particles, but if there is no damping in the system the oscillation about the bests built up and divergence is seen as a spiralling-away. For |ω|=1 the system is in a limit case, so for nonzero forces it will still diverge, as randomness adds up and there is no damping. For zero forces, the particle continues undisturbed to where is was heading for by initialisation. \nf. Negative inertia does not occur in standard physical systems, as it means that the velocity flips-over in every time step, but this is no problem for PSO which is a purely computational system. \ng. values of |ω| close to 1 help, also overshooting forces (α1 + α2 > 4). The multiplicative randomness doesn’t help much towards diversity, as we have discussed in relation to “forces” and biases in PSO”. 
+
+• Tutorial 2: Q2, Q4, Q5.
+- DO.
+
+• What are the similarities and differences between PSO and DE?
+-  Similarities: In PSO there are also triplets of vectors: any particle, its p and g (which are or were also particle positions), although p equals g for one of the particles and the triplets are most of the time the same, where as in DE they change each time randomly. \nDifferences: In PSO the (randomly distorted) sum rather than the (plainly scaled) difference is added. The sum of two “forces” and good” vectors tends to points in a “forces” and good”, while the difference vector in DE is neither good nor bad for being unrelated to the fitness. The influence or type of randomness is different in both cases (either simply by the random selection of parents in DE, or by random factors in PSO).
+
+4 ACO 
+
+• What is the inspiration of ACO?
+- ACO solves the shortest path problem in a similar way the ants do, by laying pheromone trails between the nest and food source. With some probability, other ants will follow the pheremonoe trails, as well as lay more.
+
+• How does ACO work?
+- Initialise pheromone intensities on edges, and ants in nodes. Each ant's tabu list starts with their node, and moves from town to town according to p(i,j). After n moves all ants have a complete tour and their tabu lists are full, so can compute L_k and \Delta\tau_{ij}^k. Save shortest path found and empty tabu lists, update pheromones. Iterate until tour counter reaches maximum or until stagnation. 
+
+• How does the probability rule work in ACO?
+- p(i,j) = \frac{\tau(i,j)^{\alpha}\eta(i,j)^{\beta}}{\sum_{k\in Allowed}\tau(i,k)^{\alpha}\eta(i,k)^{\beta}}}. \tau is the strength of the pheromone (global goodness), \eta is visibility (usually greedy), \alpha and \beta are constants, and the \sum normalises over all towns still permitted. \tau and \eta are the trade-off of global and local factors.
+
+• How do the pheromones work in ACO?
+- Pheromone trails evaporate a small amount after each iteration according to the rule \tau(i,j) = p\tau(i,j) + \Delta\tau_{ij} where 0<p<1 is the evaporation constant, and \Delta\tau_{ij} is the density of pheromone laid on edge (i,j) by the m ants at that time step (the sum of all).
+
+• What are taboo lists?
+- A record of already visited nodes in the graph by the ant.
+
+• How do the variants of ACO work (AS, ACS, MMAS)?
+- Ant System (AS): same but pheromone trail includes (1-p)*density. \nAnt Colony System (ACS): local and global pheromone update are included. So inclusion of the best ant in global update makes a significant improvement. \nMax-Min AS: only best ant adds to the pheromone trail, minimum and maximum values are truncated by \tau_{min} and \tau_{max}.
+
+• How can we adapt ACO to the bin packing problem?
+- Ants now begin with empty bins, instead of walking to cities they add items to their bins. Pheromone level \tau_{ij} now indicates item i is in bin j or item i and j are in the same bin. Choose new item j by local heuristic and increase pheromone level each time i and j are in the same bin. Taboo rules make sure that the number of items is correct. Fitness function is now how full bins are, and want to minimize the number of bins. 
+
+• What are typical values for the parameters of ACO?
+- N = 10...20, p = 0.99, \alpha = 1
+
+• How can we adapt ACO for continuous problems (CACS)?
+- By having the pheromones be distributed around best so far position x_{min}, \tau(x) = exp(-\frac{(x-x_{min})^2}{2\sigma^2}). Evaporation now is included by increasing the spread of the pheromone, \sigma is now the concentration of pheromone near the solution.
+
+• Tutorial 3: Q1, Q2, Q5
+- DO
+
+• What results do you expect for an ant colony algorithm that does not use taboo lists? What is the problem with the remedy?
+- If the problem is small enough, there is still some chance to find the optimal solution. Otherwise, it is very likely for ants to end up cycling very often. \nCycles can be discouraged by a high evaporation rate, however then the algorithm will not generate a memory of good solutions.
+
+• What is the Hyper-cube framework for ACO? What are the benefits of HCF?
+- It is a conceptual framework where the solution for ACO is encoded as a subset of edges on a graph. It is good because it has a probabilistic interpretation, a diversification scheme, and a proof that expected quality of solution increases.
+
+5 Computational and Statistical Aspects
+
+• When should you use a MHO algorithm?
+- Costly fitness evaluations. \nNo existing efficient or exact algorithm for the problem. \nWhen gradients don't work, or unavailable problem-specific knowledge is needed for the gradients. \nSimulation-based optimisation. \nSupport of exact methods, or as a meta-optimiser.
+
+• What are the optimal properties (present, or to some extent) for MHO to work as well as they could?
+- Completeness: representation shouldn't exclude potential solutions. \nConnexity: search path must exist between any two solutions of the search space. \nEfficiency: time and space complexities of the operators must be low. \nTopography: similar solutions should be represented by similar representations. \nCompositionality: parts of the solution should correspond to parts of the representation. 
+
+• What is the role of parameters?
+- They estimate the solution. Good algorithms have lower parameter sensitivity, but scaling of the problem usually increases it. Parameter values can be often inferred by theory, otherwise perform parameter scans.
+
+• How should one present MHO results?
+- Statistics on commonly used benchmarks, execution times, convergence behaviour, compare with other methods, test validity of the hypothesis, and make source code available.
+
+• What are the criterias for termination?
+- External: termination criterion, limited runtime, generations, etc. \nIntrinsic: saturation (fitness stopped improving), stagnation (collapse, degeneration) or divergence (numerical, particles outside search space). 
+
+• When do MHO algorithms find the global optimum?
+- Most with probability 1 in exponential time. No general non-exponential upper bound known. Practically, need to check whether fitness keeps improving, restarts lead to same results, and balance between exploration and exploitation.
+
+• How do we test a hypothesis?
+- To claim algorithm A1 is better than A2 on problem set {Pi}, must perform many runs with both, calculate mean and std.
+
+• What types of scaling can occur?
+- Performance with complexity, wrt to termination criterion, and population.
+
+• How can we parallelise MHO models?
+- Wrt to dimensions of the search space, delayed synchronisation (iteration-level), or hyper-heuristic choosing among multiple metaheuristics of among various versions.
+
+• What are memetic/hyperheuristic algorithms?
+- Algorithms that include 2 or more different metaheuristics, e.g. exploration with PSO, exploitation with SA and guided by Taboo search.
+
+• Tutorial 4: Q2, Q4
+
+• How does compact GA differ from the hyper-cube framework for ACO?
+- HCF is a faithful representation of ACO, while cGA is a simplification of GA.
+
+6 Theory of MHO
+
+• How does an algorithm guide the solutions in search space?
+- Balancing randomness and goal-directedness, fitness, bias due to memory, interactions, etc. 
+
+• What is the common theme in MHO algorithms?
+- Achieve either a balance or gradual shift between: \nexploration vs exploitation \ncooperation vs competition \ndiversification vs intensification \nglobal search vs local descent/ascent \nrandomness vs greediness
+
+• What is the essence of Model-Based Search? How does MBS work with memory? How would it work with ACO?
+- In MBS candidate solutions are constructed using a parameterised probabilistic model (e.g. a parameterized probability distribution over the solution space). \nThe model produces samples, samples contribute to the auxiliary memory, and this in turn makes learning influece the model. \nThe model is the pheromone matrix, samples are the ants following pheromone traces, auxiliary-memory is the best-so-far solution and learning is the pheromone update.
+
+• What are random walks good for?
+- Introducing diversity, find out characteristics about the problems, 0th-level comparisons for MHO algos.
+
+• What are Levy flights? What are they used for?
+- Random walks with a step length following a Levy distribution, where mean and variance of infinite. They are used for scale-free search in MHO algos.
+
+• What is an informed search?
+- Biased random walks (e.g. best-first search).
+
+• How do dynamical systems work?
+- Dynamical systems describe the autonomous time evolution of a vector x, as an iterated map or a differential equation. Usually answers the question of how the asymptotic behaviour changes when F is changed.
+
+• How does the Bayesian framework work?
+- It starts with a prior, fitness values obtained at each time step serve as evidence for a posterior (belief about the global optimum). Then the posterior is used as a new prior.
+
+• What does convergence mean?
+- Either that the dynamics comes to a halt, or that the global optimum is found (if max fitness is known).
+
+• Is it useful to show convergence in MHO?
+- Most of the convergence proofs imply an exponentially long run time, so no. However, it is more important to find parameter settings that help speed up the search.
+
+• What is a free lunch, and the no free lunch theorem?
+- A free lunch is an algorithm that is better than any other algorithm for "all the problems". The no-free lunch theorem shows that all non-resampling optimisation algorithms perform equally, averaged over all problems. 
+
+• What are block-uniform distributions?
+- Priors over functions where any two functions connected by a function permutation have the same prior. A function permutation arises when two fitness functions return the same fitness values.
+
+• What do we know about how to approach parameter settings?
+- Some algorithms have rules about how to choose parameter values, for a specific problem however we need practical experiences. Sometimes a higher-order MHO algorithm is used.
+
+• How is Lamarckism characterized?
+- Evolution as the inheritance of acquired traits, and characteristics are determined by use and disuse.
+
+• How is the Baldwin effect characterized?
+- Evolution with selection for learning ability (instead of genes), and robustness to changes in the environment. 
+
+• How do Lamarckism and Baldwin evolutions compare when using GA?
+- Lamarckian is faster, but Baldwinian less likely to be trapped in local optima
+
+7 Genetic Programming
+
+• How does GP work? What is the search space in GPs?
+- Like GA, but each individual is a program represented by a tree. GP optimizes a population of computer programs according to a fitness landscape, determined by a program's ability to perform a given computational task. \nSearch space cannot be exhausted due to no fixed-length encoding (evolution is open-ended).
+
+• What are the terms closure and sufficiency?
+- Closure redefines division by zero to return zero or FLT_MAX. Sufficiency maintains a sufficiently large set of nonterminals.
+
+• How can we construct fitness functions for GP?
+- Set E_raw to the squared distance between program's output and desired output, adjust by inversing the sum of 1 and E_raw and normalise over all possible values (E_{raw}=\sum_j{|GP(x_j) - y_j|^2}) (F_{adj}=\frac{1}{1+E_{raw}}). Use cross-validation when evaluating.
+
+• What are common ways to mutate programs in GP?
+- Shrink: replace a subtree by one of its terminals, hoist: use only a subtree as a mutant.
+
+• How can we make GPs more efficient?
+- Automate routines. Allows for code re-use, for example function defining branches (ADFs) or result producing branches (RBPs).
+
+• When would you use GPs?
+- Unsure how to program a solution but objective is clear, discovering size and shape of a solution, when it is difficult to write programs (parallel computers, FPGAs, distributed AI), a good approximate solution is satisfactory, or problem areas involving many variables interrelated in a non-linear or unknown way.
+
+• What is cartesian GP?
+- A GP technique that represents solutions as two dimensional grids of program primitives (similar to ANNs, without learning rule).
+
+• How can we use GP for neuroevolution?
+- We can design CNN architectures where convolution, pooling, etc are the building blocks; the neural network is the phenotype; and fitness is determined by test error.
+
+• What is the issue of Bloat in GPs, and how to remedy it?
+- Bloat is an increase in program size that is not accompanied by any corresponding increase in fitness. We can solve it by setting size and depth limits, or parsimony pressure (reducing fitness by size). 
+
+• Tutorial 6: Q2, Q4, Q5
+- DO
+
+• Tutorial 6: Q6, Q7, Q8
+- DO
+
+8 More on MHO algos
+
+• What is the Principle of least action in Physics? What is the advantage of physics inspired algorithms?
+- A particle starting at point x1 at time t1 and reaching position x2 at time t2 follows a trajectory that is an extremum of the action integral. Physical systems are fairly well understood.
+
+• What is diversity in MOO? How do we deal with multiple objectives in MOO?
+- Not only a good coverage of the search space, but also of the relevant regions of the objective space. By scalarisation, weighing the fitness functions by equal weight (or any other way).
+
+• What is the Pareto optimal? What is the Pareto front?
+- x* is Pareto optimal for a class of fitness functions if there exists no x != x* with f_i(x) >= f_i(x*) for all i. In other words, x* is not dominated by any other x. Pareto front is the name of the area all x* lies on (the set of x*).
+
+• Tutorial 7: Q1, Q7
+- DO
+
+• How does Non-dominated-sorting genetic algorithm (NSGA) work?
+- It selects based on non-dominated sorting of the Pareto front.
+
+• How do we classify hybrid metaheuristics?
+- Level: low if a function is replaced by another or high if cooperation. \nMode: relay if applied sequentially or teamwork if there is direct cooperation. \nType: homogeneous if the same metaheuristics are always used or heterogeneous if a choice among many is made. \nDomain: global if all algorithms share the same search space or partial if they are working on different aspects of the problem. \nFunction: generalist if all algorithms work on the full problem or specialist if just on aspects such as diversification. \nInteraction: static if combination is fixed or adaptive if it depends on the runtime properties of the algorithm.
+
+• What are hyperheuristics? What is the difference between on-line learning HH and off-line learning HH?
+- Hyperheuristics selects an appropriate heuristic, potentially from many MHO algorithms, at each decision point. Online requests new fitnesses from the problem, while offline learns from a set of training examples. One is costly but flexible and accurate, the other requires generalisation, a model and fails in non-stationary problems.
+
+• Tutorial 8: revision part
+- DO
+

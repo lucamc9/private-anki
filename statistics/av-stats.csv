@@ -1,0 +1,31 @@
+Date	Correct	Answered	Wrong	Topic
+Wed 17 Apr	0	4	[0, 1, 2, 3]	Introduction
+Thu 18 Apr	3	4	[3]	Introduction
+Thu 18 Apr	1	13	[0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12]	Flat Part Recognition
+Sat 20 Apr	13	17	[10, 11, 14, 16]	('Introduction', 'Flat Part Recognition')
+Sun 21 Apr	1	26	[0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]	Detection and Tracking objects in video
+Mon 22 Apr	6	25	[0, 1, 2, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 23, 25]	Detection and Tracking objects in video
+Tue 23 Apr	25	35	[14, 15, 16, 28, 31, 34, 37, 38, 39, 40]	('Introduction', 'Flat Part Recognition', 'Detection and Tracking objects in video')
+Wed 24 Apr	1	21	[0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]	Range data based 3D part recognition
+Wed 24 Apr	13	21	[2, 3, 9, 11, 14, 17, 18, 20]	Range data based 3D part recognition
+Thu 25 Apr	26	36	[10, 14, 32, 33, 41, 46, 50, 52, 60, 61]	('Introduction', 'Flat Part Recognition', 'Detection and Tracking objects in video', 'Range data based 3D part recognition')
+Fri 26 Apr	8	25	[4, 5, 6, 8, 9, 10, 12, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24]	Stereo data based 3D part recognition
+Fri 26 Apr	10	14	[10, 11, 12, 13]	Deformable Part Models
+Fri 26 Apr	7	14	[0, 2, 6, 9, 11, 12, 13]	Persistent Tracking and Behaviour recognition
+Fri 26 Apr	0	10	[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]	Deep Nets for Vision
+Fri 26 Apr	7	13	[9, 14, 18, 19, 22, 23]	Stereo data based 3D part recognition
+Fri 26 Apr	7	10	[0, 3, 10]	Deformable Part Models
+Fri 26 Apr	10	12	[0, 12]	Persistent Tracking and Behaviour recognition
+Fri 26 Apr	10	11	[4]	Deep Nets for Vision
+Sat 27 Apr	23	24	[11]	('Persistent Tracking and Behaviour recognition', 'Deep Nets for Vision')
+Sat 27 Apr	20	29	[4, 5, 12, 14, 16, 20, 21, 28, 36]	('Stereo data based 3D part recognition', 'Deformable Part Models')
+Sun 28 Apr	13	13	[]	Flat Part Recognition
+Sun 28 Apr	19	20	[2]	Range data based 3D part recognition
+Sun 28 Apr	19	22	[11, 19, 20]	Detection and Tracking objects in video
+Tue 30 Apr	4	4	[]	Introduction
+Tue 30 Apr	14	14	[]	Deformable Part Models
+Tue 30 Apr	23	23	[]	('Persistent Tracking and Behaviour recognition', 'Deep Nets for Vision')
+Tue 30 Apr	13	13	[]	Flat Part Recognition
+Tue 30 Apr	2	13	[0, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12]	Flat Part Recognition
+Tue 30 Apr	23	23	[]	Detection and Tracking objects in video
+Tue 30 Apr	19	19	[]	Range data based 3D part recognition
