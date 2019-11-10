@@ -2,13 +2,13 @@ from utils import *
 import random
 
 # Prep
-print ('\n#####################\n')
-print ('Welcome to the jungle\n')
-print ('#####################\n')
+print('\n#####################\n')
+print('Welcome to the jungle\n')
+print('#####################\n')
 print('Choose your battle mode:\n')
 print('1) Advanced Vision\n')
 print('2) PMR\n')
-print('3) Fuck it, imma play fifa\n')
+print('3) Too late, I\'m going to sleep!\n')
 selection = input()
 
 if selection == '1':
@@ -17,8 +17,8 @@ elif selection == '2':
     course = 'pmr'
 
 if selection not in ['1']:
-    print('\nJokes on you!\n')
-print('\nAight {} it is then\n'.format(course))
+    print('\nJoke\'s on you!\n')
+print('\Ok {} it is then\n'.format(course))
 
 # Load database and compute probabilities
 db = load_db(course)
@@ -38,13 +38,13 @@ correct_qs = []
 wrong_qs = []
 num_qs_left = num_questions
 
-
-in_  = input('Ready?\n')
+in_ = input('Ready?\n')
 
 if in_ == '':
     if False:
         for i in range(num_questions):
-            a, q, last_right, last_wrong = get_random_q_with_stats(db, last_right, last_wrong)
+            a, q, last_right, last_wrong = get_random_q_with_stats(
+                db, last_right, last_wrong)
             if not a:
                 break
             next = input('\nQ{} '.format(i) + q + '\n')
@@ -57,11 +57,12 @@ if in_ == '':
             else:
                 print('\nDunno what to do now...\n')
         all_qs = correct_qs + wrong_qs
-        print('\nAnswered all questions, result: {}/{}\n'.format(len(correct_qs), len(all_qs)))
+        print('\nAnswered all questions, result: {}/{}\n'.format(
+            len(correct_qs), len(all_qs)))
     else:
         possible_idx = list(range(num_questions))
         for i in range(num_questions):
-            rnd_idx = random.randint(0, num_questions-1)
+            rnd_idx = random.randint(0, num_questions - 1)
             num_questions -= 1
             idx = possible_idx[rnd_idx]
             del possible_idx[rnd_idx]
@@ -82,8 +83,9 @@ if in_ == '':
             elif next == 'end':
                 break
             else:
-                print('\nDunno what to do now...\n')
+                print('\Not sure what to do now...\n')
         all_qs = correct_qs + wrong_qs
-        print('\nAnswered all questions, result: {}/{}\n'.format(len(correct_qs), len(all_qs)))
+        print('\nAnswered all questions, result: {}/{}\n'.format(
+            len(correct_qs), len(all_qs)))
 
 save_stats(course, wrong_qs, all_qs, topic)
