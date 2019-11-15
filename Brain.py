@@ -6,21 +6,19 @@ import random
 
 class Brain:
     def __init__(self, course):
-        # TODO: rename database and results files
         self.course = course
         self.database = self.load_database(course)
         self.latest_results = self.load_results(course)
         self.wrong = []
         self.correct = []
         self.topic = None
-        self.questions_left = []
+        self.questions = []
 
     def load_database(self, course):
         try:
             database = pd.read_csv(f'databases/{course}.csv', sep='\t')
             return database
         except:
-            # TODO: figure out if better than raise
             print(
                 f'Invalid course name or database does not exist for {course}.'
             )
@@ -31,30 +29,24 @@ class Brain:
             results = pd.read_csv(f'results/{course}.csv', sep='\t')
             return results
         except:
-            # TODO: figure out if better than raise
-            print(f'No previous results found for {course}.')
-            return None
+            return pd.DataFrame()
 
     def display_latest_results(self):
         # TODO: add improvement info between sessions
-        if self.results:
-            date = self.results['Date'].iloc[-1]
-            correct = self.results['Correct'].iloc[-1]
-            answered = self.results['Answered'].iloc[-1]
-            topic = self.results['Topic'].iloc[-1]
-            print(f'Latest results: {date} {correct}/{answered} at {topic}\n')
-        else:
-            print('No latest results at the moment')
+        if not self.latest_results.empty:
+            date = self.latest_results['Date'].iloc[-1]
+            correct = self.latest_results['Correct'].iloc[-1]
+            answered = self.latest_results['Answered'].iloc[-1]
+            topic = self.latest_results['Topic'].iloc[-1]
+            print(
+                f'\nLatest results: {date} {correct}/{answered} at {topic}\n')
 
     def save_results(self):
         results_dict = OrderedDict()
-        # TODO: look for a better date formatter
         results_dict['Date'] = [datetime.datetime.now().strftime('%a %d %b')]
-        results_dict['Correct'] = [
-            len(self.questions_answered) - len(self.questions_failed)
-        ]
-        results_dict['Answered'] = [len(self.questions_answered)]
-        results_dict['Wrong'] = [sorted(self.questions_failed)]
+        results_dict['Correct'] = [len(self.correct)]
+        results_dict['Answered'] = [len(self.correct) + len(self.wrong)]
+        results_dict['Wrong'] = [sorted(self.wrong)]
         results_dict['Topic'] = [self.topic]
         results_df = pd.DataFrame(data=results_dict)
         try:
@@ -69,7 +61,7 @@ class Brain:
                               index=False)
 
     def ran_out_of_questions(self):
-        if len(self.questions_left) == 0:
+        if len(self.questions) == 0:
             return True
         return False
 
@@ -97,15 +89,15 @@ class Brain:
                     topics_chosen = topics_chosen + (topic, )
                 self.database = database_reduced
             else:
-                self.topic = topic[int(topic_choice) - 1]
+                self.topic = topics[int(topic_choice) - 1]
                 self.database = self.database[self.database['Topic'] ==
                                               self.topic]
+
         num_questions = len(self.database.index)
-        self.questions_left = random.sample(range(0, num_questions),
-                                            num_questions)
+        self.questions = random.sample(range(0, num_questions), num_questions)
 
     def get_next_question(self):
-        idx = self.questions_left.pop()
+        idx = self.questions.pop()
         question = self.database['Question'].iloc[idx]
         answer = self.database['Answer'].iloc[idx].replace("\\n", "\n")
         topic = self.database['Topic'].iloc[idx]
@@ -116,4 +108,4 @@ class Brain:
         self.correct.append(idx)
 
     def add_wrong(self, idx):
-        self.wrong(idx)
+        self.wrong.append(idx)
